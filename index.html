@@ -2,7 +2,7 @@
 <html lang="it" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Auto Greco | L'Usato Sicuro a Rocca di Neto</title>
     <meta name="description" content="Auto Greco di Luigi Greco: auto periziate, garantite e servizio di autonoleggio a Rocca di Neto. Zero sorprese, chilometri certificati.">
     
@@ -21,8 +21,8 @@
                     },
                     colors: {
                         brand: {
-                            red: '#BA1826', // Rosso Corsa più profondo e autorevole
-                            dark: '#1A1D20', // Grigio Antracite metallico
+                            red: '#BA1826',
+                            dark: '#1A1D20',
                             gray: '#2C3035',
                             light: '#F8F9FA'
                         }
@@ -46,38 +46,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        ::-webkit-scrollbar { width: 10px; }
+        /* Scrollbar Desktop */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #1A1D20; }
-        ::-webkit-scrollbar-thumb { background: #BA1826; }
+        ::-webkit-scrollbar-thumb { background: #BA1826; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #8a121c; }
         
-        /* Stile per la galleria Polaroid delle consegne */
+        /* Nascondi scrollbar nativa per i caroselli swipe su mobile */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
         .polaroid {
             background: white;
             padding: 10px 10px 25px 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s;
         }
-        .polaroid:nth-child(even) { transform: rotate(2deg); }
-        .polaroid:nth-child(odd) { transform: rotate(-2deg); }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 10; position: relative; }
+        @media (min-width: 768px) {
+            .polaroid:nth-child(even) { transform: rotate(2deg); }
+            .polaroid:nth-child(odd) { transform: rotate(-2deg); }
+            .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 10; position: relative; }
+        }
     </style>
 </head>
 <body class="font-sans bg-brand-light text-brand-dark antialiased selection:bg-brand-red selection:text-white relative">
 
-    <a href="https://wa.me/390000000000?text=Ciao%20Luigi,%20vorrei%20un%20video-tour%20di%20un'auto" target="_blank" class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 group">
+    <a href="https://wa.me/390000000000?text=Ciao%20Luigi,%20vorrei%20un%20video-tour%20di%20un'auto" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-green-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 group">
         <i class="fa-solid fa-video text-2xl"></i>
-        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 ease-in-out pl-0 group-hover:pl-3 font-semibold">
+        <span class="hidden md:inline-block max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 ease-in-out pl-0 group-hover:pl-3 font-semibold">
             Chiedi Video-Tour
         </span>
     </a>
 
-    <nav class="fixed w-full z-40 transition-all duration-300 bg-brand-dark/95 backdrop-blur-md shadow-lg py-4 border-b border-gray-800">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" class="font-heading text-2xl font-extrabold text-white tracking-tighter flex items-center gap-2">
+    <nav class="fixed w-full z-40 transition-all duration-300 bg-brand-dark/95 backdrop-blur-md shadow-lg py-4 border-b border-gray-800 relative">
+        <div class="container mx-auto px-6 flex justify-between items-center relative z-50">
+            <a href="#" class="font-heading text-xl md:text-2xl font-extrabold text-white tracking-tighter flex items-center gap-2">
                 <i class="fa-solid fa-car-side text-brand-red"></i>
                 AUTO<span class="text-brand-red">GRECO</span>
             </a>
+            
             <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
                 <a href="#parco-auto" class="text-gray-300 hover:text-white transition-colors">Parco Auto</a>
                 <a href="#servizi" class="text-gray-300 hover:text-white transition-colors">Servizi</a>
@@ -87,48 +94,59 @@
                     <i class="fa-brands fa-whatsapp text-lg"></i> Parla con Luigi
                 </a>
             </div>
-            <button class="md:hidden text-white text-2xl">
+
+            <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
+
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-brand-dark border-b border-gray-800 shadow-2xl z-40 px-6 py-6 flex flex-col gap-4">
+            <a href="#parco-auto" class="text-lg text-white font-medium border-b border-gray-800 pb-3">Parco Auto</a>
+            <a href="#servizi" class="text-lg text-white font-medium border-b border-gray-800 pb-3">I Nostri Servizi</a>
+            <a href="#chi-siamo" class="text-lg text-white font-medium border-b border-gray-800 pb-3">Chi Siamo</a>
+            <a href="#contatti" class="text-lg text-white font-medium border-b border-gray-800 pb-3">Vieni a Trovarci</a>
+            <a href="https://wa.me/390000000000" target="_blank" class="mt-2 bg-[#25D366] text-white px-5 py-3 rounded-xl flex items-center justify-center gap-2 font-bold text-lg">
+                <i class="fa-brands fa-whatsapp text-2xl"></i> Scrivici su WhatsApp
+            </a>
+        </div>
     </nav>
 
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-12">
+    <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-28 pb-12">
         <div class="absolute inset-0 w-full h-full">
-            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1920&auto=format&fit=crop" alt="Piazzale Auto Greco Rocca di Neto" class="w-full h-full object-cover object-center animate-kenburns" />
-            <div class="absolute inset-0 bg-gradient-to-r from-brand-dark/95 via-brand-dark/80 to-transparent"></div>
+            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1920&auto=format&fit=crop" alt="Piazzale Auto Greco Rocca di Neto" class="w-full h-full object-cover object-center lg:animate-kenburns" />
+            <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-brand-dark/95 via-brand-dark/80 to-transparent"></div>
         </div>
-        <div class="relative z-10 container mx-auto px-6" data-aos="fade-up" data-aos-duration="1000">
+        <div class="relative z-10 container mx-auto px-4 md:px-6" data-aos="fade-up" data-aos-duration="1000">
             <div class="max-w-3xl">
-                <div class="inline-flex items-center bg-white/10 border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium mb-6 backdrop-blur-md">
+                <div class="inline-flex items-center bg-white/10 border border-white/20 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium mb-6 backdrop-blur-md">
                     <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse mr-2"></span>
-                    15 Nuovi Arrivi in Salone questa settimana
+                    15 Nuovi Arrivi in Salone
                 </div>
                 
-                <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6 tracking-tight shadow-sm">
+                <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-4 md:mb-6 tracking-tight shadow-sm">
                     Smetti di cercare su internet. <br />
                     <span class="text-brand-red">L'usato sicuro</span> a Rocca di Neto.
                 </h1>
-                <p class="text-lg md:text-xl text-gray-300 mb-10 font-light max-w-2xl leading-relaxed">
+                <p class="text-base md:text-xl text-gray-300 mb-8 md:mb-10 font-light max-w-2xl leading-relaxed">
                     Nessuna sorpresa, nessun intermediario. Solo auto periziate, garantite e pronte per la strada. Da Luigi Greco, la stretta di mano vale ancora.
                 </p>
 
-                <div class="bg-white p-5 rounded-2xl shadow-2xl max-w-3xl border-b-4 border-brand-red">
+                <div class="bg-white p-4 md:p-5 rounded-2xl shadow-2xl max-w-3xl border-b-4 border-brand-red">
                     <form class="flex flex-col md:flex-row gap-3">
-                        <select class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-3 focus:ring-2 focus:ring-brand-red outline-none font-medium">
+                        <select class="w-full text-base bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-3 md:py-4 focus:ring-2 focus:ring-brand-red outline-none font-medium appearance-none">
                             <option value="">Cosa cerchi?</option>
                             <option value="usato">Auto Usate</option>
                             <option value="noleggio">Autonoleggio</option>
                             <option value="km0">Km 0</option>
                         </select>
-                        <select class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-3 focus:ring-2 focus:ring-brand-red outline-none font-medium">
+                        <select class="w-full text-base bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-3 md:py-4 focus:ring-2 focus:ring-brand-red outline-none font-medium appearance-none">
                             <option value="">Fascia di prezzo</option>
                             <option value="5-10">5.000€ - 10.000€</option>
                             <option value="10-20">10.000€ - 20.000€</option>
                             <option value="20+">Oltre 20.000€</option>
                         </select>
-                        <button type="button" class="w-full md:w-auto bg-brand-red hover:bg-red-800 text-white font-bold px-8 py-3 rounded-lg transition-colors whitespace-nowrap shadow-md">
-                            Cerca Auto <i class="fa-solid fa-car-side ml-2"></i>
+                        <button type="button" class="w-full md:w-auto bg-brand-red hover:bg-red-800 text-white font-bold px-8 py-4 rounded-lg transition-colors whitespace-nowrap shadow-md text-lg md:text-base">
+                            Cerca <i class="fa-solid fa-car-side ml-2"></i>
                         </button>
                     </form>
                 </div>
@@ -137,161 +155,118 @@
     </section>
 
     <div class="bg-brand-red py-4 relative z-20">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-center items-center gap-4 text-white text-center md:text-left">
-            <i class="fa-solid fa-file-signature text-3xl"></i>
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 text-white text-center md:text-left">
+            <i class="fa-solid fa-file-signature text-2xl md:text-3xl"></i>
             <div>
-                <h4 class="font-heading font-bold text-lg">La Promessa "Tagliandi Trasparenti"</h4>
-                <p class="text-sm text-red-100">Ti consegniamo l'auto con il report stampato di tutti i lavori eseguiti. Niente chilometri scalati.</p>
+                <h4 class="font-heading font-bold text-base md:text-lg">La Promessa "Tagliandi Trasparenti"</h4>
+                <p class="text-xs md:text-sm text-red-100">Ti consegniamo l'auto con il report stampato. Niente chilometri scalati.</p>
             </div>
         </div>
     </div>
 
-    <section id="servizi" class="py-24 bg-brand-dark text-white relative">
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+    <section id="servizi" class="py-16 lg:py-24 bg-brand-dark text-white relative">
+        <div class="container mx-auto px-4 md:px-6 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
                 <h2 class="text-brand-red font-bold tracking-widest uppercase text-xs mb-2">Cosa Offriamo</h2>
-                <h3 class="font-heading text-4xl font-extrabold mb-4">Soluzioni per la tua mobilità</h3>
-                <p class="text-gray-400">Dalla vendita all'autonoleggio, ti accompagniamo in ogni fase con professionalità e senza giri di parole.</p>
+                <h3 class="font-heading text-3xl md:text-4xl font-extrabold mb-4">Soluzioni per la tua mobilità</h3>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-8 rounded-xl hover:bg-gray-800 hover:border-brand-red transition-all duration-300 group" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-16 h-16 bg-brand-red/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-brand-red transition-colors duration-300">
-                        <i class="fa-solid fa-car text-3xl text-brand-red group-hover:text-white transition-colors"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 lg:p-8 rounded-xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-brand-red/10 flex items-center justify-center rounded-lg mb-5">
+                        <i class="fa-solid fa-car text-2xl text-brand-red"></i>
                     </div>
                     <h4 class="font-heading text-xl font-bold mb-3">Vendita Auto Garantite</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Ampia selezione di auto usate e km 0. Tutti i nostri veicoli sono periziati in 100 punti, igienizzati e coperti da garanzia reale per un acquisto in totale serenità.
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Veicoli periziati in 100 punti, igienizzati e coperti da garanzia reale per un acquisto in totale serenità.
                     </p>
                 </div>
-
-                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-8 rounded-xl hover:bg-gray-800 hover:border-brand-red transition-all duration-300 group relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-brand-red rounded-bl-[100px] -z-10 opacity-20 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="w-16 h-16 bg-brand-red/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-brand-red transition-colors duration-300">
-                        <i class="fa-solid fa-key text-3xl text-brand-red group-hover:text-white transition-colors"></i>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 lg:p-8 rounded-xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-brand-red/10 flex items-center justify-center rounded-lg mb-5">
+                        <i class="fa-solid fa-key text-2xl text-brand-red"></i>
                     </div>
                     <h4 class="font-heading text-xl font-bold mb-3">Autonoleggio Locale</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Servizio di autonoleggio flessibile per privati e aziende. Tariffe chiare, niente carte di credito bloccate a dismisura e pacchetti su misura per chi si muove nel crotonese.
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Servizio flessibile per privati e aziende. Tariffe chiare, zero carte bloccate a dismisura e pacchetti su misura.
                     </p>
                 </div>
-
-                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-8 rounded-xl hover:bg-gray-800 hover:border-brand-red transition-all duration-300 group" data-aos="fade-up" data-aos-delay="300">
-                    <div class="w-16 h-16 bg-brand-red/10 flex items-center justify-center rounded-lg mb-6 group-hover:bg-brand-red transition-colors duration-300">
-                        <i class="fa-solid fa-file-invoice-dollar text-3xl text-brand-red group-hover:text-white transition-colors"></i>
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 p-6 lg:p-8 rounded-xl" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 bg-brand-red/10 flex items-center justify-center rounded-lg mb-5">
+                        <i class="fa-solid fa-file-invoice-dollar text-2xl text-brand-red"></i>
                     </div>
                     <h4 class="font-heading text-xl font-bold mb-3">Finanziamenti in Sede</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Ti guidiamo nella scelta migliore per le tue tasche. Offriamo piani di finanziamento personalizzati a tassi chiari, con esito rapido della pratica direttamente in salone.
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Offriamo piani di finanziamento personalizzati a tassi chiari, con esito rapido della pratica direttamente in salone.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="parco-auto" class="py-24 bg-brand-light">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-end mb-12" data-aos="fade-right">
-                <div>
-                    <h2 class="text-brand-red font-bold tracking-widest uppercase text-xs mb-2">Disponibilità Immediata</h2>
-                    <h3 class="font-heading text-4xl font-extrabold text-brand-dark">Il Nostro <span class="font-light">Piazzale</span></h3>
-                </div>
+    <section id="parco-auto" class="py-16 lg:py-24 bg-brand-light">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="mb-10" data-aos="fade-right">
+                <h2 class="text-brand-red font-bold tracking-widest uppercase text-xs mb-2">Disponibilità Immediata</h2>
+                <h3 class="font-heading text-3xl md:text-4xl font-extrabold text-brand-dark">Il Nostro <span class="font-light">Piazzale</span></h3>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg shadow-gray-200 group border border-gray-100" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative h-60 overflow-hidden">
-                        <div class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md animate-pulse">Appena Arrivata</div>
-                        <img src="https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?q=80&w=800&auto=format&fit=crop" alt="Audi Q3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute bottom-4 left-4 bg-brand-dark/90 text-white text-xs font-bold px-3 py-1 rounded backdrop-blur-sm">Immatricolazione: 05/2021</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <div class="bg-white rounded-xl overflow-hidden shadow-md shadow-gray-200 border border-gray-100" data-aos="fade-up">
+                    <div class="relative h-56 lg:h-60 overflow-hidden">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-[10px] md:text-xs font-bold px-3 py-1 rounded-full z-10 shadow-md">Appena Arrivata</div>
+                        <img src="https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?q=80&w=800&auto=format&fit=crop" alt="Audi Q3" class="w-full h-full object-cover">
+                        <div class="absolute bottom-3 left-3 bg-brand-dark/90 text-white text-[10px] font-bold px-2 py-1 rounded backdrop-blur-sm">Imm: 05/2021</div>
                     </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-heading text-xl font-bold">Audi Q3 S-Line 2.0 TDI</h4>
-                        </div>
-                        <p class="text-xs text-brand-red font-semibold mb-4 bg-red-50 inline-block px-2 py-1 rounded"><i class="fa-solid fa-user-check"></i> Unico Proprietario</p>
+                    <div class="p-5 lg:p-6">
+                        <h4 class="font-heading text-lg lg:text-xl font-bold mb-1">Audi Q3 S-Line 2.0 TDI</h4>
+                        <p class="text-[11px] text-brand-red font-semibold mb-4 bg-red-50 inline-block px-2 py-1 rounded"><i class="fa-solid fa-user-check"></i> Unico Proprietario</p>
                         
-                        <div class="grid grid-cols-2 gap-3 text-sm text-gray-600 mb-6 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gauge-high text-gray-400"></i> 45.000 km veri</span>
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gas-pump text-gray-400"></i> Diesel</span>
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gear text-gray-400"></i> Automatico</span>
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-barcode text-gray-400"></i> Telaio Verificato</span>
+                        <div class="grid grid-cols-2 gap-2 text-xs lg:text-sm text-gray-600 mb-5 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-gray-400"></i> 45.000 km veri</span>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-gas-pump text-gray-400"></i> Diesel</span>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-gear text-gray-400"></i> Automatico</span>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-barcode text-gray-400"></i> Telaio OK</span>
                         </div>
                         
                         <div class="mb-4">
-                            <span class="text-3xl font-heading font-extrabold text-brand-dark">€ 32.500</span>
+                            <span class="text-2xl lg:text-3xl font-heading font-extrabold text-brand-dark">€ 32.500</span>
                         </div>
                         
                         <div class="flex flex-col gap-2 mt-4">
-                            <a href="https://wa.me/390000000000?text=Ciao%20Luigi,%20posso%20avere%20un%20video%20della%20Audi%20Q3?" target="_blank" class="w-full bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 px-4 py-2.5 rounded-lg font-semibold transition-colors text-sm text-center flex justify-center items-center gap-2">
-                                <i class="fa-brands fa-whatsapp text-lg"></i> Chiedi un Video su WhatsApp
+                            <a href="https://wa.me/390000000000?text=Ciao%20Luigi,%20posso%20avere%20un%20video%20della%20Audi%20Q3?" target="_blank" class="w-full bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 px-4 py-3 rounded-lg font-bold transition-colors text-sm text-center flex justify-center items-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i> Video su WhatsApp
                             </a>
-                            <a href="#contatti" class="w-full bg-brand-dark hover:bg-gray-800 text-white px-4 py-2.5 rounded-lg font-semibold transition-colors text-sm text-center flex justify-center items-center gap-2 shadow-md">
-                                <i class="fa-regular fa-calendar-check"></i> Prenota Test Drive a Rocca di Neto
+                            <a href="#contatti" class="w-full bg-brand-dark hover:bg-gray-800 text-white px-4 py-3 rounded-lg font-bold transition-colors text-sm text-center flex justify-center items-center gap-2 shadow-md">
+                                <i class="fa-regular fa-calendar-check"></i> Prenota Test Drive
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg shadow-gray-200 group border border-gray-100" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800&auto=format&fit=crop" alt="Mercedes A-Class" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute bottom-4 left-4 bg-brand-dark/90 text-white text-xs font-bold px-3 py-1 rounded backdrop-blur-sm">Immatricolazione: 03/2022</div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-heading text-xl font-bold">Mercedes Classe A 200d</h4>
-                        </div>
-                        <p class="text-xs text-gray-500 font-semibold mb-4 bg-gray-100 inline-block px-2 py-1 rounded"><i class="fa-solid fa-file-contract"></i> Garanzia 12 Mesi Inclusa</p>
-                        
-                        <div class="grid grid-cols-2 gap-3 text-sm text-gray-600 mb-6 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gauge-high text-gray-400"></i> 28.000 km veri</span>
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gas-pump text-gray-400"></i> Diesel</span>
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gear text-gray-400"></i> Automatico</span>
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-barcode text-gray-400"></i> Telaio Verificato</span>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <span class="text-3xl font-heading font-extrabold text-brand-dark">€ 29.900</span>
-                        </div>
-                        
-                        <div class="flex flex-col gap-2 mt-4">
-                            <a href="https://wa.me/390000000000?text=Ciao%20Luigi,%20posso%20avere%20un%20video%20della%20Mercedes?" target="_blank" class="w-full bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 px-4 py-2.5 rounded-lg font-semibold transition-colors text-sm text-center flex justify-center items-center gap-2">
-                                <i class="fa-brands fa-whatsapp text-lg"></i> Chiedi un Video su WhatsApp
-                            </a>
-                            <a href="#contatti" class="w-full bg-brand-dark hover:bg-gray-800 text-white px-4 py-2.5 rounded-lg font-semibold transition-colors text-sm text-center flex justify-center items-center gap-2 shadow-md">
-                                <i class="fa-regular fa-calendar-check"></i> Prenota Test Drive a Rocca di Neto
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl overflow-hidden shadow-lg shadow-gray-200 group border border-gray-100 relative" data-aos="fade-up" data-aos-delay="300">
+                <div class="bg-white rounded-xl overflow-hidden shadow-md shadow-gray-200 border border-gray-100 relative" data-aos="fade-up" data-aos-delay="200">
                     <div class="absolute top-0 right-0 w-16 h-16 overflow-hidden z-20">
                         <div class="bg-brand-red text-white text-[10px] font-bold py-1 px-8 absolute top-3 -right-6 transform rotate-45 shadow-md">NOLEGGIO</div>
                     </div>
-                    <div class="relative h-60 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1619682817481-e994891cd1f5?q=80&w=800&auto=format&fit=crop" alt="Fiat 500" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="relative h-56 lg:h-60 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1619682817481-e994891cd1f5?q=80&w=800&auto=format&fit=crop" alt="Fiat 500" class="w-full h-full object-cover">
                     </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-heading text-xl font-bold">Fiat 500 Hybrid Lounge</h4>
-                        </div>
-                        <p class="text-xs text-brand-dark font-semibold mb-4 bg-gray-100 inline-block px-2 py-1 rounded"><i class="fa-solid fa-stopwatch"></i> Disponibile da Subito</p>
+                    <div class="p-5 lg:p-6">
+                        <h4 class="font-heading text-lg lg:text-xl font-bold mb-1">Fiat 500 Hybrid Lounge</h4>
+                        <p class="text-[11px] text-brand-dark font-semibold mb-4 bg-gray-100 inline-block px-2 py-1 rounded"><i class="fa-solid fa-stopwatch"></i> Disponibile da Subito</p>
                         
-                        <div class="grid grid-cols-2 gap-3 text-sm text-gray-600 mb-6 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gas-pump text-gray-400"></i> Ibrida</span>
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-gear text-gray-400"></i> Manuale</span>
-                            <span class="flex items-center gap-2 col-span-2"><i class="fa-solid fa-shield-cat text-gray-400"></i> Kasko inclusa opzionale</span>
+                        <div class="grid grid-cols-2 gap-2 text-xs lg:text-sm text-gray-600 mb-5 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-gas-pump text-gray-400"></i> Ibrida</span>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-gear text-gray-400"></i> Manuale</span>
+                            <span class="flex items-center gap-1.5 col-span-2"><i class="fa-solid fa-shield-cat text-gray-400"></i> Kasko inclusa opzionale</span>
                         </div>
                         
                         <div class="mb-4">
                             <span class="text-xs text-gray-500 uppercase font-semibold block">A partire da</span>
-                            <span class="text-3xl font-heading font-extrabold text-brand-dark">€ 35<span class="text-base font-sans font-normal text-gray-500">/giorno</span></span>
+                            <span class="text-2xl lg:text-3xl font-heading font-extrabold text-brand-dark">€ 35<span class="text-base font-sans font-normal text-gray-500">/giorno</span></span>
                         </div>
                         
                         <div class="mt-4">
-                            <a href="https://wa.me/390000000000?text=Vorrei%20info%20sul%20noleggio%20della%20Fiat%20500" target="_blank" class="w-full bg-brand-red hover:bg-red-800 text-white px-4 py-3 rounded-lg font-semibold transition-colors text-sm text-center flex justify-center items-center gap-2 shadow-md">
+                            <a href="https://wa.me/390000000000?text=Vorrei%20info%20sul%20noleggio%20della%20Fiat%20500" target="_blank" class="w-full bg-brand-red hover:bg-red-800 text-white px-4 py-3 rounded-lg font-bold transition-colors text-sm text-center flex justify-center items-center gap-2 shadow-md">
                                 <i class="fa-solid fa-key"></i> Verifica Disponibilità
                             </a>
                         </div>
@@ -301,265 +276,124 @@
         </div>
     </section>
 
-    <section class="py-24 bg-white border-y border-gray-100">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-brand-red font-bold tracking-widest uppercase text-xs mb-2">Dietro le quinte</h2>
-                <h3 class="font-heading text-4xl font-extrabold text-brand-dark">Il Nostro Salone</h3>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[250px]">
-                <div class="lg:col-span-2 lg:row-span-2 rounded-2xl overflow-hidden relative group shadow-md" data-aos="zoom-in" data-aos-delay="100">
-                    <img src="https://images.unsplash.com/photo-1600705353063-8a35567b5e43?q=80&w=1200&auto=format&fit=crop" alt="Showroom interno" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span class="text-white font-bold tracking-wider uppercase text-sm border-2 border-white px-6 py-2 rounded">Salone Auto Greco</span>
-                    </div>
-                </div>
-                <div class="rounded-2xl overflow-hidden relative group shadow-md" data-aos="zoom-in" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1550520920-ce99a45ece4d?q=80&w=800&auto=format&fit=crop" alt="Interni auto lusso" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-                <div class="rounded-2xl overflow-hidden relative group shadow-md" data-aos="zoom-in" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=800&auto=format&fit=crop" alt="Dettaglio cerchi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-                <div class="lg:col-span-2 rounded-2xl overflow-hidden relative group shadow-md" data-aos="zoom-in" data-aos-delay="400">
-                    <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=800&auto=format&fit=crop" alt="Chiavi auto cruscotto" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="chi-siamo" class="py-24 bg-brand-light overflow-hidden relative border-b border-gray-200">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col lg:flex-row items-center gap-16">
-                <div class="w-full lg:w-1/2 relative" data-aos="fade-right">
-                    <div class="absolute inset-0 bg-brand-dark transform translate-x-4 translate-y-4 rounded-2xl -z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=800&auto=format&fit=crop" alt="Luigi Greco" class="rounded-2xl shadow-2xl w-full h-[550px] object-cover border-4 border-white">
-                    <div class="absolute bottom-8 -right-8 bg-brand-red p-6 rounded-xl shadow-xl hidden md:block border-2 border-white text-white">
-                        <p class="font-heading text-4xl font-black mb-1">20+</p>
-                        <p class="text-sm font-semibold uppercase tracking-wider">Anni sul territorio<br>di Rocca di Neto</p>
-                    </div>
-                </div>
-                <div class="w-full lg:w-1/2" data-aos="fade-left">
-                    <h2 class="text-brand-red font-bold tracking-widest uppercase text-xs mb-2">La Nostra Faccia</h2>
-                    <h3 class="font-heading text-4xl lg:text-5xl font-extrabold text-brand-dark mb-8 leading-tight">
-                        Non ti venderò mai un'auto che non farei guidare alla mia famiglia.
-                    </h3>
-                    <div class="space-y-6 text-gray-600 text-lg leading-relaxed">
-                        <p>
-                            Sono <strong>Luigi Greco</strong> e metto la firma su ogni singola vettura che esce da questo piazzale. Non siamo una fredda multinazionale: siamo i tuoi vicini di casa a Rocca di Neto.
-                        </p>
-                        <p>
-                            <strong>Se c'è un problema, sai dove trovarci.</strong> Selezioniamo, controlliamo su ponte sollevatore in 100 punti specifici e garantiamo l'auto nero su bianco. Prima di metterla in vendita, la provo personalmente.
-                        </p>
-                    </div>
-                    
-                    <div class="mt-10 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <h4 class="font-heading font-bold text-xl mb-4 text-brand-dark">Il Metodo Greco:</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-3 text-gray-700 font-medium">
-                                <i class="fa-solid fa-check text-green-500 mt-1"></i> Controllo meccanico completo pre-consegna
-                            </li>
-                            <li class="flex items-start gap-3 text-gray-700 font-medium">
-                                <i class="fa-solid fa-check text-green-500 mt-1"></i> Igienizzazione profonda degli interni
-                            </li>
-                            <li class="flex items-start gap-3 text-gray-700 font-medium">
-                                <i class="fa-solid fa-check text-green-500 mt-1"></i> Passaggio di proprietà rapido in sede
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 bg-white border-b border-gray-100 overflow-hidden">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16" data-aos="fade-up">
+    <section class="py-16 lg:py-24 bg-white border-b border-gray-100 overflow-hidden">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
                 <h2 class="text-brand-red font-bold tracking-widest uppercase text-xs mb-2">Non credere a noi</h2>
-                <h3 class="font-heading text-4xl font-extrabold text-brand-dark">Credi ai nostri clienti.</h3>
+                <h3 class="font-heading text-3xl md:text-4xl font-extrabold text-brand-dark">Credi ai nostri clienti.</h3>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20 px-4 md:px-0" data-aos="fade-up" data-aos-delay="100">
-                <div class="polaroid">
+            <div class="flex overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 gap-4 md:gap-6 mb-10 md:mb-20 hide-scrollbar" data-aos="fade-up" data-aos-delay="100">
+                <div class="min-w-[70vw] md:min-w-0 snap-center polaroid">
                     <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?q=80&w=400&auto=format&fit=crop" alt="Consegna Cliente" class="w-full aspect-square object-cover mb-3">
                     <p class="font-heading font-bold text-center text-gray-800 text-sm">Fam. Rossi (Nuova Tiguan)</p>
                 </div>
-                <div class="polaroid">
+                <div class="min-w-[70vw] md:min-w-0 snap-center polaroid">
                     <img src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?q=80&w=400&auto=format&fit=crop" alt="Consegna Cliente" class="w-full aspect-square object-cover mb-3 filter grayscale-[20%]">
                     <p class="font-heading font-bold text-center text-gray-800 text-sm">Marco (Prima Auto!)</p>
                 </div>
-                <div class="polaroid hidden md:block">
+                <div class="min-w-[70vw] md:min-w-0 snap-center polaroid">
                     <img src="https://images.unsplash.com/photo-1600705353063-8a35567b5e43?q=80&w=400&auto=format&fit=crop" alt="Consegna Cliente" class="w-full aspect-square object-cover mb-3">
-                    <p class="font-heading font-bold text-center text-gray-800 text-sm">Azienda Edile (Noleggio Furgone)</p>
+                    <p class="font-heading font-bold text-center text-gray-800 text-sm">Azienda Edile (Furgone)</p>
                 </div>
-                <div class="polaroid hidden md:block">
+                <div class="min-w-[70vw] md:min-w-0 snap-center polaroid border-r-4 md:border-none border-transparent pr-4 md:pr-0">
                     <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=400&auto=format&fit=crop" alt="Consegna Cliente" class="w-full aspect-square object-cover mb-3">
                     <p class="font-heading font-bold text-center text-gray-800 text-sm">Sara (Classe A km0)</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-brand-light p-8 rounded-2xl shadow-sm border border-gray-100 relative" data-aos="fade-up" data-aos-delay="100">
+            <div class="flex overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 gap-6 hide-scrollbar">
+                <div class="min-w-[85vw] md:min-w-0 snap-center bg-brand-light p-6 lg:p-8 rounded-2xl border border-gray-100" data-aos="fade-up">
                     <div class="flex justify-between items-start mb-4">
-                        <div class="flex text-yellow-400 text-sm">
+                        <div class="flex text-yellow-400 text-xs md:text-sm">
                             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                         </div>
-                        <i class="fa-brands fa-google text-gray-300 text-xl"></i>
+                        <i class="fa-brands fa-google text-gray-300 text-lg md:text-xl"></i>
                     </div>
-                    <p class="text-gray-700 leading-relaxed mb-6 font-medium text-sm">"Ho girato mezza Calabria per trovare un usato che non avesse km scalati. Luigi mi ha mostrato subito i tagliandi originali della mia Golf. Macchina perfetta, concessionaria seria. Consigliato a tutti nel crotonese."</p>
+                    <p class="text-gray-700 leading-relaxed mb-6 font-medium text-sm">"Ho girato mezza Calabria per trovare un usato che non avesse km scalati. Luigi mi ha mostrato subito i tagliandi originali della mia Golf. Macchina perfetta."</p>
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-700">D</div>
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-700 text-sm">D</div>
                         <div>
                             <h5 class="font-bold text-brand-dark text-sm">Domenico R.</h5>
-                            <p class="text-xs text-gray-500">Local Guide</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="bg-brand-light p-8 rounded-2xl shadow-sm border border-gray-100 relative" data-aos="fade-up" data-aos-delay="200">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="flex text-yellow-400 text-sm">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                        <i class="fa-brands fa-google text-gray-300 text-xl"></i>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed mb-6 font-medium text-sm">"Servizio di autonoleggio top. Presa un'auto per una settimana per scendere dai parenti giù. Macchina pulitissima (sapeva di nuovo) e zero problemi alla riconsegna. Niente trucchetti sulla carta di credito."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center font-bold text-pink-700">A</div>
-                        <div>
-                            <h5 class="font-bold text-brand-dark text-sm">Antonella C.</h5>
-                            <p class="text-xs text-gray-500">1 recensione</p>
-                        </div>
-                    </div>
                 </div>
-
-                <div class="bg-brand-light p-8 rounded-2xl shadow-sm border border-gray-100 relative" data-aos="fade-up" data-aos-delay="300">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="flex text-yellow-400 text-sm">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                        <i class="fa-brands fa-google text-gray-300 text-xl"></i>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed mb-6 font-medium text-sm">"Onesti e veloci. Abbiamo avuto un piccolo problema con la batteria dopo 2 settimane dall'acquisto, ho chiamato Luigi e in 30 minuti me l'ha sostituita in garanzia senza farmi pagare un euro."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center font-bold text-green-700">S</div>
-                        <div>
-                            <h5 class="font-bold text-brand-dark text-sm">Salvatore M.</h5>
-                            <p class="text-xs text-gray-500">4 recensioni</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section id="contatti" class="py-24 bg-brand-light relative">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+    <section id="contatti" class="py-16 lg:py-24 bg-brand-light relative">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
                 
                 <div data-aos="fade-right">
                     <h2 class="text-brand-red font-bold tracking-widest uppercase text-xs mb-2">Vieni a Trovarci</h2>
-                    <h3 class="font-heading text-4xl font-extrabold text-brand-dark mb-8 leading-tight">La tua prossima auto<br>ti aspetta qui.</h3>
+                    <h3 class="font-heading text-3xl md:text-4xl font-extrabold text-brand-dark mb-8 leading-tight">La tua prossima auto<br>ti aspetta qui.</h3>
                     
-                    <div class="space-y-8 mb-10">
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
-                                <i class="fa-solid fa-location-dot text-brand-red text-xl"></i>
+                    <div class="space-y-6 mb-10">
+                        <div class="flex items-start gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <div class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-location-dot text-brand-red text-lg"></i>
                             </div>
                             <div>
-                                <h4 class="font-heading font-bold text-xl mb-1 text-brand-dark">Indirizzo</h4>
-                                <p class="text-gray-600 font-medium">Via Provinciale, 1<br>88821 Rocca di Neto (KR)<br>Calabria, Italia</p>
+                                <h4 class="font-heading font-bold text-lg mb-1 text-brand-dark">Indirizzo</h4>
+                                <p class="text-gray-600 font-medium text-sm">Via Provinciale, 1<br>88821 Rocca di Neto (KR)</p>
                             </div>
                         </div>
 
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
-                                <i class="fa-solid fa-phone-volume text-brand-red text-xl"></i>
+                        <div class="flex items-start gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <div class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-phone-volume text-brand-red text-lg"></i>
                             </div>
                             <div>
-                                <h4 class="font-heading font-bold text-xl mb-1 text-brand-dark">Telefono & WhatsApp</h4>
-                                <p class="text-gray-600 mb-2 text-sm">Rispondiamo dal Lunedì al Sabato</p>
-                                <a href="tel:+390000000000" class="text-xl font-bold text-brand-dark hover:text-brand-red transition-colors block">+39 000 000 0000</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
-                                <i class="fa-solid fa-envelope text-brand-red text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-heading font-bold text-xl mb-1 text-brand-dark">Email</h4>
-                                <a href="mailto:info@autogreco.it" class="text-gray-600 hover:text-brand-red transition-colors font-medium block">info@autogreco.it</a>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
-                                <i class="fa-solid fa-clock text-brand-red text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-heading font-bold text-xl mb-1 text-brand-dark">Orari Salone</h4>
-                                <p class="text-gray-600 font-medium">Lun - Ven: 09:00 - 13:00 / 15:30 - 19:30<br>Sab: 09:00 - 13:00<br>Dom: Chiuso (Solo su appuntamento)</p>
+                                <h4 class="font-heading font-bold text-lg mb-1 text-brand-dark">Telefono & WhatsApp</h4>
+                                <a href="tel:+390000000000" class="text-lg font-bold text-brand-dark block">+39 000 000 0000</a>
                             </div>
                         </div>
                     </div>
 
-                    <a href="https://wa.me/390000000000" target="_blank" class="w-full sm:w-auto inline-flex bg-[#25D366] text-white font-bold px-8 py-4 rounded-xl hover:bg-[#1ebd5a] transition-colors items-center justify-center gap-3 shadow-md shadow-green-200 text-lg">
+                    <a href="https://wa.me/390000000000" target="_blank" class="w-full flex bg-[#25D366] text-white font-bold px-6 py-4 rounded-xl hover:bg-[#1ebd5a] transition-colors items-center justify-center gap-3 shadow-md text-lg">
                         <i class="fa-brands fa-whatsapp text-2xl"></i> Prenota un Appuntamento
                     </a>
                 </div>
 
-                <div class="h-[600px] bg-gray-200 rounded-3xl overflow-hidden shadow-2xl relative border-8 border-white" data-aos="fade-left">
-                    <div class="absolute inset-0 bg-gray-300">
+                <div class="h-[350px] lg:h-[600px] bg-gray-200 rounded-2xl overflow-hidden shadow-xl relative border-4 md:border-8 border-white" data-aos="fade-left">
+                    <div class="absolute inset-0 bg-gray-300 pointer-events-none md:pointer-events-auto">
                         <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Rocca%20di%20Neto,%20KR&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
                     </div>
+                    <div class="absolute inset-0 bg-transparent md:hidden" onclick="this.style.pointerEvents='none'"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-brand-dark pt-16 pb-8 border-t-4 border-brand-red text-white">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+    <footer class="bg-brand-dark pt-12 lg:pt-16 pb-8 border-t-4 border-brand-red text-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
                 <div>
-                    <a href="#" class="font-heading text-2xl font-black tracking-tighter flex items-center gap-2 mb-6">
+                    <a href="#" class="font-heading text-2xl font-black tracking-tighter flex items-center gap-2 mb-4">
                         <i class="fa-solid fa-car-side text-brand-red"></i>
                         AUTO<span class="text-brand-red">GRECO</span>
                     </a>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        Non vendiamo auto, mettiamo su strada la tua tranquillità. Il tuo partner di fiducia a Rocca di Neto per usato sicuro e noleggio senza sorprese.
+                        Non vendiamo auto, mettiamo su strada la tua tranquillità.
                     </p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-brand-red transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-brand-red transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                    </div>
                 </div>
                 
                 <div>
-                    <h4 class="font-heading text-lg font-bold mb-6 text-white">Info Rapide</h4>
-                    <ul class="space-y-3 text-gray-400 text-sm font-medium">
-                        <li><a href="#parco-auto" class="hover:text-white transition-colors">Vedi le Auto in Salone</a></li>
-                        <li><a href="#servizi" class="hover:text-white transition-colors">Servizio Autonoleggio</a></li>
-                        <li><a href="#chi-siamo" class="hover:text-white transition-colors">La nostra garanzia</a></li>
-                        <li><a href="https://wa.me/390000000000" class="hover:text-white transition-colors text-[#25D366]">Contattaci su WhatsApp</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-heading text-lg font-bold mb-6 text-white">I Nostri Servizi</h4>
-                    <ul class="space-y-3 text-gray-400 text-sm font-medium">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-red"></i> Usato Garantito 12-24 Mesi</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-red"></i> Ritiriamo il tuo Usato</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-red"></i> Finanziamenti in Sede</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-red"></i> Noleggio a Breve/Lungo Termine</li>
+                    <h4 class="font-heading text-lg font-bold mb-4 text-white">Info Rapide</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm font-medium flex flex-col">
+                        <a href="#parco-auto" class="inline-block py-1">Vedi le Auto in Salone</a>
+                        <a href="#servizi" class="inline-block py-1">Servizio Autonoleggio</a>
+                        <a href="https://wa.me/390000000000" class="inline-block py-1 text-[#25D366]">Contattaci su WhatsApp</a>
                     </ul>
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 font-medium">
+            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 font-medium gap-4">
                 <p>© 2026 Auto Greco. Tutti i diritti riservati.</p>
-                <div class="mt-4 md:mt-0 space-x-4">
-                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <div class="space-x-4">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
                     <a href="#" class="hover:text-white transition-colors">P.IVA 00000000000</a>
                 </div>
             </div>
@@ -568,21 +402,38 @@
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({
-            once: true,
-            offset: 50,
-            duration: 700,
-            easing: 'ease-out-cubic',
-        });
+        AOS.init({ once: true, offset: 50, duration: 700, easing: 'ease-out-cubic' });
         
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 20) {
-                nav.classList.add('shadow-lg');
+                nav.classList.add('shadow-lg', 'bg-brand-dark/95');
             } else {
                 nav.classList.remove('shadow-lg');
             }
+        });
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = mobileMenuBtn.querySelector('i');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            } else {
+                menuIcon.classList.replace('fa-bars', 'fa-xmark');
+            }
+        });
+
+        // Chiudi il menu quando si clicca un link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            });
         });
     </script>
 </body>
